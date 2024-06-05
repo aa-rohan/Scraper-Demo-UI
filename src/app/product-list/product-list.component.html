@@ -9,7 +9,7 @@
 <div>
   @for (product of products$ | async; track $index) {
     <div class="product-name">
-      {{product.title}}
+      <a [routerLink]="['/product', product.id]">{{ product.title }}</a>
     </div>
   } @empty {
     Empty list of products

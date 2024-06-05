@@ -9,6 +9,11 @@ export class ApiService {
   private baseUrl = 'http://localhost:3000';
   private http: HttpClient = inject(HttpClient);
 
+  fetchProduct(id: string | null): Observable<any[]> {
+    let url = `${this.baseUrl}/products/${id}`;
+    return this.http.get<any[]>(url);
+  }
+
   fetchProducts(searchTerm: string | null = null, category: string | null = null): Observable<any[]> {
     const params: any = {}
     let url = `${this.baseUrl}/products`;

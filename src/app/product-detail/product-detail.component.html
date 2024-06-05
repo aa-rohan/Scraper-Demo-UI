@@ -1,0 +1,20 @@
+@if (product$ | async; as product) {
+<div class="product-name">
+  Product Name: {{ product.title }}
+</div>
+<div class="product-description">
+  Product Description: {{ product.description }}
+</div>
+<div class="product-price">
+  Product Price: {{ product.price_amount }}
+</div>
+<div class="product-contact">
+  Product Seller: {{ product.contact_info }}
+</div>
+<div class="product-url">
+  {{ product.url }}
+</div>
+<img [src]="product.image_url" width="200px">
+} @else {
+  Loading product details...
+}
