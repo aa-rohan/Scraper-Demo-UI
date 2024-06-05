@@ -2,11 +2,12 @@ import { Component, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiService } from '../api.service';
 import { AsyncPipe } from '@angular/common';
+import { ProductListComponent } from '../product-list/product-list.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [AsyncPipe],
+  imports: [AsyncPipe, ProductListComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })

@@ -9,8 +9,24 @@ export class ApiService {
   private baseUrl = 'http://localhost:3000';
   private http: HttpClient = inject(HttpClient);
 
-  fetchProducts(): Observable<any[]> {
-    const url = `${this.baseUrl}/products`;
-    return this.http.get<any[]>(url);
+  fetchProducts(searchTerm: string | null = null, category: string | null = null): Observable<any[]> {
+    const params: any = {}
+    let url = `${this.baseUrl}/products`;
+    if (searchTerm) {
+      params.search = searchTerm;
+    }
+    if (category) {
+      params.category = category;
+    }
+    return this.http.get<any[]>(url, {params});
+  }
+
+  fetchCategories(searchTerm: string | null = null): Observable<any[]> {
+    const params: any = {}
+    let url = `${this.baseUrl}/categories`;
+    if (searchTerm) {
+      params.search = searchTerm;
+    }
+    return this.http.get<any[]>(url, {params});
   }
 }

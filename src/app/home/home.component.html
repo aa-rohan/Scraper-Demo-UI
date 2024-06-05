@@ -1,12 +1,1 @@
-<p>
-  @for (product of products$ | async; track $index) {
-    <ul>
-      <li>{{product.title}}</li>
-      <li>{{product.description}}</li>
-      <li>{{product.contact_info}}</li>
-      <li>{{product.price_amount}}</li>
-    </ul>
-  } @empty {
-    Empty list of products
-  }
-</p>
+<app-product-list></app-product-list>

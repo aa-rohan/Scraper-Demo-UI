@@ -1,0 +1,17 @@
+<div>
+  <input [formControl]="searchControl" placeholder="Search products" />
+  <select [formControl]="categoryControl">
+    @for (category of categories$ | async; track $index) {
+      <option [value]="category.name">{{ category.name }}</option>
+    }
+  </select>
+</div>
+<div>
+  @for (product of products$ | async; track $index) {
+    <div class="product-name">
+      {{product.title}}
+    </div>
+  } @empty {
+    Empty list of products
+  }
+</div>
