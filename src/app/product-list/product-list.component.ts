@@ -1,23 +1,27 @@
 import { Component, Input, inject } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { Observable, combineLatest, debounceTime, distinctUntilChanged, of, startWith, switchMap } from 'rxjs';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BehaviorSubject, Observable, combineLatest, debounceTime, distinctUntilChanged, map, of, startWith, switchMap, tap } from 'rxjs';
 import { ApiService } from '../api.service';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [ReactiveFormsModule, AsyncPipe, RouterModule],
+  imports: [ReactiveFormsModule, AsyncPipe, RouterModule, FormsModule, CommonModule],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss'
 })
 export class ProductListComponent {
   private api: ApiService = inject(ApiService);
 
+  private perPage: number = 20;
+
   products$: Observable<any[]> = new Observable();
   categories$: Observable<any[]> = of([]);
 
+  currentPage$ = new BehaviorSubject<number>(1);
+  totalPages: number = 1;
   searchControl = new FormControl(null);
   categoryControl = new FormControl(null);
 
@@ -29,25 +33,57 @@ export class ProductListComponent {
       this.searchControl.valueChanges.pipe(
         startWith(null),
         debounceTime(300),
-        distinctUntilChanged()
+        distinctUntilChanged(),
+        tap(() => this.currentPage$.next(1))
       ),
       this.categoryControl.valueChanges.pipe(
         startWith(null),
         debounceTime(300),
-        distinctUntilChanged()
+        distinctUntilChanged(),
+        tap(() => this.currentPage$.next(1))
+      ),
+      this.currentPage$.pipe(
+        startWith(1)
       )
     ]).pipe(
-      switchMap(([searchTerm, category]) =>
-        this.api.fetchProducts(searchTerm, category)
+      switchMap(([searchTerm, category, currentPage]) =>
+        this.api.fetchProducts(searchTerm, category, currentPage).pipe(
+          map((data: any) => {
+            this.totalPages = data.total_pages;
+            return data.products;
+          })
+        )
       )
     );
   }
 
   fetchProducts() {
-    this.products$ = this.api.fetchProducts();
+    this.products$ = this.api.fetchProducts(null, null, this.currentPage$.value, this.perPage);
   }
 
   fetchCategories() {
     this.categories$ = this.api.fetchCategories();
+  }
+
+  setPage(event: any) {
+    this.currentPage$.next(Number(event.target.value));
+  }
+
+  nextPage() {
+    const currentPage = this.currentPage$.getValue();
+    if (currentPage < this.totalPages) {
+      this.currentPage$.next(currentPage + 1);
+    }
+  }
+
+  previousPage() {
+    const currentPage = this.currentPage$.getValue();
+    if (currentPage > 1) {
+      this.currentPage$.next(currentPage - 1);
+    }
+  }
+
+  get pages(): number[] {
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
 }
