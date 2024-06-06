@@ -23,8 +23,8 @@ export class ProductListComponent {
   currentPage$ = new BehaviorSubject<number>(1);
 
   totalPages: number = 1;
-  searchControl = new FormControl(null);
-  categoryControl = new FormControl(null);
+  searchControl: FormControl<any> = new FormControl(null);
+  categoryControl: FormControl<any>  = new FormControl(null);
 
   ngOnInit() {
     this.fetchProducts();

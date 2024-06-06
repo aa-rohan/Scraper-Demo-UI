@@ -25,3 +25,10 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+
+## Things to do
+
+Add interfaces for Products and Categories
+Add interceptors to convert incoming responses from the API from snake case to camel case
+Add guards for authorization

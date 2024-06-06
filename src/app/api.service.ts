@@ -14,7 +14,7 @@ export class ApiService {
     return this.http.post<any[]>(url, {url: productUrl});
   }
 
-  fetchProduct(id: string | null): Observable<any[]> {
+  fetchProduct(id: string | null): Observable<any> {
     let url = `${this.baseUrl}/products/${id}`;
     return this.http.get<any[]>(url);
   }
@@ -26,7 +26,7 @@ export class ApiService {
     perPage: number = 5,
     orderBy: string = 'id',
     orderDirection: string = 'asc'
-  ): Observable<any[]> {
+  ): Observable<any> {
     let url = `${this.baseUrl}/products`;
     let params = new HttpParams()
       .set('page_number', pageNumber.toString())

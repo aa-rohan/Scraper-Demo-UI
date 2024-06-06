@@ -1,15 +1,15 @@
 <div>
-  <a [routerLink]="['/product', product.id]" class="block h-64 rounded-lg shadow-lg">
-    <img [src]="product.image_url" class="object-cover w-full h-full" alt="Product Image">
+  <a [routerLink]="['/product', product?.id]" class="block h-64 rounded-lg shadow-lg">
+    <img [src]="product?.image_url" class="object-cover w-full h-full" alt="Product Image">
   </a>
   <div class="flex items-center justify-between mt-3">
     <div>
-      <a [routerLink]="['/product', product.id]" class="font-medium">{{product.title}}</a>
+      <a [routerLink]="['/product', product?.id]" class="font-medium">{{product?.title}}</a>
       <div class="flex items-center">
         <span class="text-xs font-medium text-gray-600">by</span>
-        <span class="text-xs font-medium ml-1 text-blue-400">{{product.contact_info}}</span>
+        <span class="text-xs font-medium ml-1 text-blue-400">{{product?.contact_info}}</span>
       </div>
     </div>
-    <span class="flex items-center h-8 bg-blue-200 text-blue-500 text-sm px-2 rounded">{{product.price_amount}}</span>
+    <span class="flex items-center h-8 bg-blue-200 text-blue-500 text-sm px-2 rounded">{{product?.price_amount}}</span>
   </div>
 </div>
