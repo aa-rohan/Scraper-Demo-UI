@@ -1,6 +1,9 @@
 <div>
   <div class="group px-20 pt-10">
-    <label class="inline-block w-full text-sm font-medium text-gray-500 transition-all duration-200 ease-in-out group-focus-within:text-blue-400">Scrape a new product</label>
+    <label
+      class="inline-block w-full text-sm font-medium text-gray-500 transition-all duration-200 ease-in-out group-focus-within:text-blue-400"
+      >Scrape a new product</label
+    >
     <div class="relative flex items-center">
       <input
         [(ngModel)]="productUrl"
@@ -15,6 +18,16 @@
         Scrape
       </button>
     </div>
+  </div>
+  <div
+    id="simpleToast"
+    [ngClass]="{
+      'opacity-0 left-0': !showMessage,
+      'opacity-100 left-1/2': showMessage
+    }"
+    class="bg-indigo-400 min-w-20 text-white text-center rounded-lg py-4 fixed z-10 transition-all ease-in-out delay-150 duration-300 left-1/3"
+  >
+    <span class="ml-3 mt-1">{{notificationMessage}}</span>
   </div>
   <app-product-list></app-product-list>
 </div>
