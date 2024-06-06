@@ -1,20 +1,3 @@
-<div class="group px-20 pt-10">
-  <label class="inline-block w-full text-sm font-medium text-gray-500 transition-all duration-200 ease-in-out group-focus-within:text-blue-400">Scrape a new product</label>
-  <div class="relative flex items-center">
-    <input
-      [(ngModel)]="productUrl"
-      placeholder="www.example-product-url.com"
-      type="text"
-      class="peer relative h-10 w-full rounded-md bg-gray-50 pl-4 pr-20 font-thin outline-none drop-shadow-sm transition-all duration-200 ease-in-out focus:bg-white focus:drop-shadow-lg"
-    />
-    <button
-      (click)="scrape()"
-      class="absolute right-2 h-7 w-16 rounded-md bg-blue-200 text-xs font-semibold text-white transition-all duration-200 ease-in-out group-focus-within:bg-blue-400 group-focus-within:hover:bg-blue-600"
-    >
-      Scrape
-    </button>
-  </div>
-</div>
 <div class="flex items-center justify-center" >
   <div class="group mx-10 mt-10">
     <label class="inline-block w-full text-sm font-medium text-gray-500 transition-all duration-200 ease-in-out group-focus-within:text-blue-400">Products</label>
@@ -22,33 +5,32 @@
       <input [formControl]="searchControl" placeholder="Search products" type="text" class="peer relative h-10 w-full rounded-md bg-gray-50 pl-4 pr-20 font-thin outline-none drop-shadow-sm transition-all duration-200 ease-in-out focus:bg-white focus:drop-shadow-lg" />
     </div>
   </div>
-  <div class="group mx-10 mt-10">
+  <div class="group flex mx-10 mt-10">
     <label class="inline-block w-full text-sm font-medium text-gray-500 transition-all duration-200 ease-in-out group-focus-within:text-blue-400">Category</label>
     <select [formControl]="categoryControl" placeholder="Select Category" class="peer relative h-10 w-full rounded-md bg-gray-50 pl-4 pr-20 font-thin outline-none drop-shadow-sm transition-all duration-200 ease-in-out focus:bg-white focus:drop-shadow-lg">
-    <button class="absolute right-2 h-7 w-16 rounded-md bg-blue-200 text-xs font-semibold text-white transition-all duration-200 ease-in-out group-focus-within:bg-red-400 group-focus-within:hover:bg-red-600">Clear</button>
       @for (category of categories$ | async; track $index) {
         <option [value]="category.name">{{ category.name }}</option>
       }
     </select>
+    <button
+      [disabled]="!categoryControl.value"
+      class="ml-2 rounded-md text-xs font-semibold text-white transition-all duration-200 ease-in-out"
+      [ngClass]="{
+        'bg-red-200': !categoryControl.value,
+        'group-focus-within:bg-red-400 group-focus-within:hover:bg-red-600': categoryControl.value
+      }"
+      (click)="clearCategory()"
+    >
+      Clear
+    </button>
   </div>
 </div>
 <div class="grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-x-6 gap-y-12 w-full mt-6 p-10">
   @for (product of products$ | async; track $index) {
-    <div>
-      <a [routerLink]="['/product', product.id]" class="block h-64 rounded-lg shadow-lg">
-        <img [src]="product.image_url" class="object-cover w-full h-full" alt="Product Image">
-      </a>
-      <div class="flex items-center justify-between mt-3">
-        <div>
-          <a [routerLink]="['/product', product.id]" class="font-medium">{{product.title}}</a>
-          <div class="flex items-center">
-            <span class="text-xs font-medium text-gray-600">by</span>
-            <span class="text-xs font-medium ml-1 text-blue-400">{{product.contact_info}}</span>
-          </div>
-        </div>
-        <span class="flex items-center h-8 bg-blue-200 text-blue-500 text-sm px-2 rounded">{{product.price_amount}}</span>
-      </div>
-    </div>
+    <app-product-card
+      [product]="product"
+    >
+    </app-product-card>
   } @empty {
     <div class="empty"></div>
     <div class="empty"></div>

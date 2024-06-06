@@ -1,1 +1,20 @@
-<app-product-list></app-product-list>
+<div>
+  <div class="group px-20 pt-10">
+    <label class="inline-block w-full text-sm font-medium text-gray-500 transition-all duration-200 ease-in-out group-focus-within:text-blue-400">Scrape a new product</label>
+    <div class="relative flex items-center">
+      <input
+        [(ngModel)]="productUrl"
+        placeholder="www.example-product-url.com"
+        type="text"
+        class="peer relative h-10 w-full rounded-md bg-gray-50 pl-4 pr-20 font-thin outline-none drop-shadow-sm transition-all duration-200 ease-in-out focus:bg-white focus:drop-shadow-lg"
+      />
+      <button
+        (click)="scrape()"
+        class="absolute right-2 h-7 w-16 rounded-md bg-blue-200 text-xs font-semibold text-white transition-all duration-200 ease-in-out group-focus-within:bg-blue-400 group-focus-within:hover:bg-blue-600"
+      >
+        Scrape
+      </button>
+    </div>
+  </div>
+  <app-product-list></app-product-list>
+</div>

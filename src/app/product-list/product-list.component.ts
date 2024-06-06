@@ -3,18 +3,18 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BehaviorSubject, Observable, combineLatest, debounceTime, distinctUntilChanged, map, of, startWith, switchMap, tap } from 'rxjs';
 import { ApiService } from '../api.service';
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
+import { ProductCardComponent } from '../product-card/product-card.component';
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [ReactiveFormsModule, AsyncPipe, RouterModule, FormsModule, CommonModule],
+  imports: [ReactiveFormsModule, AsyncPipe, RouterModule, FormsModule, CommonModule, ProductCardComponent],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss'
 })
 export class ProductListComponent {
   private api: ApiService = inject(ApiService);
-  private router: Router = inject(Router)
 
   private perPage: number = 20;
 
@@ -23,7 +23,6 @@ export class ProductListComponent {
   currentPage$ = new BehaviorSubject<number>(1);
 
   totalPages: number = 1;
-  productUrl: string | null = null;
   searchControl = new FormControl(null);
   categoryControl = new FormControl(null);
 
@@ -59,13 +58,8 @@ export class ProductListComponent {
     );
   }
 
-  scrape() {
-    if (!this.productUrl) {
-      return
-    }
-    this.api.scrapeProduct(this.productUrl).subscribe((product: any) => {
-      this.router.navigate(['/product', product.data.id]);
-    });
+  clearCategory() {
+    this.categoryControl.setValue(null);
   }
 
   fetchProducts() {
