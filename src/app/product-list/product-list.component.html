@@ -5,24 +5,26 @@
       <input [formControl]="searchControl" placeholder="Search products" type="text" class="peer relative h-10 w-full rounded-md bg-gray-50 pl-4 pr-20 font-thin outline-none drop-shadow-sm transition-all duration-200 ease-in-out focus:bg-white focus:drop-shadow-lg" />
     </div>
   </div>
-  <div class="group flex mx-10 mt-10">
+  <div class="group mx-10 mt-10">
     <label class="inline-block w-full text-sm font-medium text-gray-500 transition-all duration-200 ease-in-out group-focus-within:text-blue-400">Category</label>
-    <select [formControl]="categoryControl" placeholder="Select Category" class="peer relative h-10 w-full rounded-md bg-gray-50 pl-4 pr-20 font-thin outline-none drop-shadow-sm transition-all duration-200 ease-in-out focus:bg-white focus:drop-shadow-lg">
-      @for (category of categories$ | async; track $index) {
-        <option [value]="category.name">{{ category.name }}</option>
-      }
-    </select>
-    <button
-      [disabled]="!categoryControl.value"
-      class="ml-2 rounded-md text-xs font-semibold text-white transition-all duration-200 ease-in-out"
-      [ngClass]="{
-        'bg-red-200': !categoryControl.value,
-        'group-focus-within:bg-red-400 group-focus-within:hover:bg-red-600': categoryControl.value
-      }"
-      (click)="clearCategory()"
-    >
-      Clear
-    </button>
+    <div class="flex">
+      <select [formControl]="categoryControl" placeholder="Select Category" class="peer relative h-10 w-full rounded-md bg-gray-50 pl-4 pr-20 font-thin outline-none drop-shadow-sm transition-all duration-200 ease-in-out focus:bg-white focus:drop-shadow-lg">
+        @for (category of categories$ | async; track $index) {
+          <option [value]="category.name">{{ category.name }}</option>
+        }
+      </select>
+      <button
+        [disabled]="!categoryControl.value"
+        class="ml-2 rounded-md text-xs font-semibold text-white transition-all duration-200 ease-in-out"
+        [ngClass]="{
+          'bg-red-200': !categoryControl.value,
+          'bg-red-400 hover:bg-red-600': categoryControl.value
+        }"
+        (click)="clearCategory()"
+      >
+        Clear
+      </button>
+    </div>
   </div>
 </div>
 <div class="grid 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-x-6 gap-y-12 w-full mt-6 p-10">
