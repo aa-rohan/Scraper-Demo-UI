@@ -1,20 +1,45 @@
 @if (product$ | async; as product) {
-<div class="product-name">
-  Product Name: {{ product.title }}
-</div>
-<div class="product-description">
-  Product Description: {{ product.description }}
-</div>
-<div class="product-price">
-  Product Price: {{ product.price_amount }}
-</div>
-<div class="product-contact">
-  Product Seller: {{ product.contact_info }}
-</div>
-<div class="product-url">
-  {{ product.url }}
-</div>
-<img [src]="product.image_url" width="200px">
-} @else {
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
+      <div class="flex flex-col md:flex-row -mx-4">
+          <div class="md:flex-1 px-4">
+              <div class="h-100 rounded-lg">
+                  <img class="w-full h-full object-cover" [src]="product.image_url" alt="Product Image">
+              </div>
+              <div class="flex pt-4 items-center justify-center">
+                  <a [routerLink]="['']" class="px-2">
+                    <button class="w-full bg-gray-900  text-white py-2 px-4 rounded-full font-bold hover:bg-gray-800">Back to Products Listing</button>
+                  </a>
+                  <a [href]="product.url" target="_blank" class="px-2">
+                      <button class="w-full bg-indigo-200 text-indigo-500 py-2 px-4 rounded-full font-bold mr-2 hover:bg-indigo-400">Visit Product Page</button>
+                  </a>
+              </div>
+          </div>
+          <div class="md:flex-1 px-4">
+              <h2 class="text-2xl font-bold text-gray-800 ">{{ product.title }}</h2>
+                  <div class="pt-2">
+                      <span class="font-bold text-gray-700 mr-4">Price:</span>
+                      <span class="flex items-center h-8 bg-blue-200 text-blue-500 text-sm px-2 rounded w-fit">{{product.price_amount}}</span>
+                  </div>
+              <div class="mb-4 pt-2">
+                  <span class="font-bold text-gray-700 ">Categories:</span>
+                  <div class="flex items-center mt-2">
+                    @for (category of product.product_categories; track $index) {
+                      <button class="bg-blue-200 text-blue-500 py-2 px-4 rounded font-bold mr-2 hover:bg-blue-400">{{category}}</button>
+                    }
+                  </div>
+              </div>
+              <div>
+                  <span class="font-bold text-gray-700 ">Product Description:</span>
+                  <p class="text-gray-600  text-sm mt-2">
+                    {{ product.description || 'N/A'}}
+                  </p>
+              </div>
+          </div>
+      </div>
+  </div>
+}
+@else {
   Loading product details...
 }
+
+
