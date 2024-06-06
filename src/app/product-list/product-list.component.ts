@@ -3,7 +3,7 @@ import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BehaviorSubject, Observable, combineLatest, debounceTime, distinctUntilChanged, map, of, startWith, switchMap, tap } from 'rxjs';
 import { ApiService } from '../api.service';
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-product-list',
@@ -14,14 +14,16 @@ import { RouterModule } from '@angular/router';
 })
 export class ProductListComponent {
   private api: ApiService = inject(ApiService);
+  private router: Router = inject(Router)
 
   private perPage: number = 20;
 
   products$: Observable<any[]> = new Observable();
   categories$: Observable<any[]> = of([]);
-
   currentPage$ = new BehaviorSubject<number>(1);
+
   totalPages: number = 1;
+  productUrl: string | null = null;
   searchControl = new FormControl(null);
   categoryControl = new FormControl(null);
 
@@ -55,6 +57,15 @@ export class ProductListComponent {
         )
       )
     );
+  }
+
+  scrape() {
+    if (!this.productUrl) {
+      return
+    }
+    this.api.scrapeProduct(this.productUrl).subscribe((product: any) => {
+      this.router.navigate(['/product', product.data.id]);
+    });
   }
 
   fetchProducts() {
