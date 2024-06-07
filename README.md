@@ -64,3 +64,6 @@ With more time, the following could be integrated:
 
 - **Add more filters**: Filter by price or by domain.
 - **Expand Unit Testing**: Add more testing for critical functionality.
+- **Tailwind Themes**: Build custom theming with tailwind.
+- **Reusable components**: Make things like the search bar and dropdown components reusable.
+- **Barreling**: Encapsulate standalone components into barrels for wasier sharing.
