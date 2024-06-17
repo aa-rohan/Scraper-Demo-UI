@@ -1,6 +1,6 @@
 import { Component, Input, inject } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BehaviorSubject, Observable, combineLatest, debounceTime, distinctUntilChanged, map, of, startWith, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, Observable, combineLatest, debounceTime, distinctUntilChanged, map, of, share, shareReplay, startWith, switchMap, tap } from 'rxjs';
 import { ApiService } from '../api.service';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -17,62 +17,25 @@ import { Category, Product } from '../shared/interfaces/interfaces';
 export class ProductListComponent {
   private api: ApiService = inject(ApiService);
 
-  private perPage: number = 5;
-
   products$: Observable<Product[]> = new Observable();
   categories$: Observable<Category[]> = of([]);
   currentPage$ = new BehaviorSubject<number>(1);
 
   totalPages: number = 1;
   searchControl: FormControl<any> = new FormControl(null);
-  categoryControl: FormControl<any>  = new FormControl(null);
+  categoryControl: FormControl<any> = new FormControl(null);
 
   ngOnInit(): void {
     this.fetchProducts();
     this.fetchCategories();
+  }
 
-    this.products$ = combineLatest([
-      this.searchControl.valueChanges.pipe(
-        startWith(null),
-        debounceTime(300),
-        distinctUntilChanged(),
-        tap(() => this.currentPage$.next(1))
-      ),
-      this.categoryControl.valueChanges.pipe(
-        startWith(null),
-        debounceTime(300),
-        distinctUntilChanged(),
-        tap(() => this.currentPage$.next(1))
-      ),
-      this.currentPage$.pipe(
-        startWith(1)
-      )
-    ]).pipe(
-      switchMap(([searchTerm, category, currentPage]) =>
-        this.api.fetchProducts(searchTerm, category, currentPage).pipe(
-          map((data: any) => {
-            this.totalPages = data.total_pages;
-            return data.products;
-          })
-        )
-      )
-    );
+  get pages(): number[] {
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
 
   clearCategory(): void {
     this.categoryControl.setValue(null);
-  }
-
-  fetchProducts(): void {
-    this.products$ = this.api.fetchProducts(null, null, this.currentPage$.value, this.perPage).pipe(
-      map((data) => {
-        return data.products;
-      })
-    );
-  }
-
-  fetchCategories(): void {
-    this.categories$ = this.api.fetchCategories();
   }
 
   setPage(event: any): void {
@@ -93,7 +56,34 @@ export class ProductListComponent {
     }
   }
 
-  get pages(): number[] {
-    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  private fetchProducts(): void {
+    this.products$ = combineLatest([
+      this.searchControl.valueChanges.pipe(
+        startWith(null),
+        debounceTime(300),
+        distinctUntilChanged(),
+        tap(() => this.currentPage$.next(1))
+      ),
+      this.categoryControl.valueChanges.pipe(
+        startWith(null),
+        tap(() => this.currentPage$.next(1))
+      ),
+      this.currentPage$.pipe(
+        startWith(1)
+      )
+    ]).pipe(
+      switchMap(([searchTerm, category, currentPage]) =>
+        this.api.fetchProducts(searchTerm, category, currentPage).pipe(
+          map((data: any) => {
+            this.totalPages = data.total_pages;
+            return data.products;
+          })
+        )
+      )
+    );
+  }
+
+  private fetchCategories(): void {
+    this.categories$ = this.api.fetchCategories();
   }
 }
