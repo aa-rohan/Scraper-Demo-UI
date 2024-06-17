@@ -36,7 +36,7 @@ describe('HomeComponent', () => {
 
   it('should call scrapeProduct on ApiService and navigate on successful scrape', () => {
     const productUrl = 'http://example.com/product/123';
-    const mockProduct = { data: { id: '123' } };
+    const mockProduct = {data: { id: 123, title: 'tes tproduct', price_amount: '123'}};
 
     spyOn(apiService, 'scrapeProduct').and.returnValue(of(mockProduct));
     spyOn(router, 'navigate').and.stub();
@@ -45,7 +45,7 @@ describe('HomeComponent', () => {
     component.scrape();
 
     expect(apiService.scrapeProduct).toHaveBeenCalledWith(productUrl);
-    expect(router.navigate).toHaveBeenCalledWith(['/product', '123']);
+    expect(router.navigate).toHaveBeenCalledWith(['/product', 123]);
   });
 
   it('should not call scrapeProduct on ApiService if productUrl is not set', () => {

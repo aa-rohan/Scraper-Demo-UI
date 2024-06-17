@@ -39,7 +39,7 @@ describe('ProductDetailComponent', () => {
   });
 
   it('should fetch product details from ApiService on initialization', () => {
-    const mockProduct = { id: '123', name: 'Product Name' };
+    const mockProduct = { id: 123, title: 'Product Name', price_amount: '123' };
     spyOn(apiService, 'fetchProduct').and.returnValue(of(mockProduct));
 
     component.ngOnInit();

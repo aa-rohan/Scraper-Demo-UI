@@ -25,7 +25,7 @@ describe('ApiService', () => {
   });
 
   it('should call scrapeProduct with correct URL', () => {
-    const dummyResponse = { success: true };
+    const dummyResponse = {data: { id: 1, title: 'Product A', price_amount: '123' }};
     const productUrl = 'http://example.com/product';
 
     service.scrapeProduct(productUrl).subscribe(response => {
@@ -39,7 +39,7 @@ describe('ApiService', () => {
   });
 
   it('should call fetchProduct with correct URL', () => {
-    const dummyProduct = [{ id: 1, name: 'Product A' }];
+    const dummyProduct = { id: 1, title: 'Product A', price_amount: '123'};
     const productId = '1';
 
     service.fetchProduct(productId).subscribe(product => {
@@ -52,7 +52,7 @@ describe('ApiService', () => {
   });
 
   it('should call fetchProducts with correct params', () => {
-    const dummyProducts = [{ id: 1, name: 'Product A' }];
+    const dummyProducts = [{ id: 1, title: 'Product A', price_amount: '123123' }];
     const searchTerm = 'test';
     const category = 'electronics';
     const pageNumber = 1;

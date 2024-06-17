@@ -5,6 +5,7 @@ import { ApiService } from '../api.service';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ProductCardComponent } from '../product-card/product-card.component';
+import { Category, Product } from '../shared/interfaces/interfaces';
 
 @Component({
   selector: 'app-product-list',
@@ -18,15 +19,15 @@ export class ProductListComponent {
 
   private perPage: number = 20;
 
-  products$: Observable<any[]> = new Observable();
-  categories$: Observable<any[]> = of([]);
+  products$: Observable<Product[]> = new Observable();
+  categories$: Observable<Category[]> = of([]);
   currentPage$ = new BehaviorSubject<number>(1);
 
   totalPages: number = 1;
   searchControl: FormControl<any> = new FormControl(null);
   categoryControl: FormControl<any>  = new FormControl(null);
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.fetchProducts();
     this.fetchCategories();
 
@@ -58,30 +59,30 @@ export class ProductListComponent {
     );
   }
 
-  clearCategory() {
+  clearCategory(): void {
     this.categoryControl.setValue(null);
   }
 
-  fetchProducts() {
+  fetchProducts(): void {
     this.products$ = this.api.fetchProducts(null, null, this.currentPage$.value, this.perPage);
   }
 
-  fetchCategories() {
+  fetchCategories(): void {
     this.categories$ = this.api.fetchCategories();
   }
 
-  setPage(event: any) {
+  setPage(event: any): void {
     this.currentPage$.next(Number(event.target.value));
   }
 
-  nextPage() {
+  nextPage(): void {
     const currentPage = this.currentPage$.getValue();
     if (currentPage < this.totalPages) {
       this.currentPage$.next(currentPage + 1);
     }
   }
 
-  previousPage() {
+  previousPage(): void {
     const currentPage = this.currentPage$.getValue();
     if (currentPage > 1) {
       this.currentPage$.next(currentPage - 1);

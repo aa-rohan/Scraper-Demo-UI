@@ -5,6 +5,7 @@ import { AsyncPipe, CommonModule } from '@angular/common';
 import { ProductListComponent } from '../product-list/product-list.component';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { Product } from '../shared/interfaces/interfaces';
 
 @Component({
   selector: 'app-home',
@@ -17,17 +18,17 @@ export class HomeComponent {
   private api: ApiService = inject(ApiService)
   private router: Router = inject(Router)
 
-  products$: Observable<any[]> = new Observable();
+  products$: Observable<Product[]> = new Observable();
   productUrl: string | null = null;
   showMessage: boolean = false;
   notificationMessage: string = '';
 
-  scrape() {
+  scrape(): void {
     if (!this.productUrl) {
       return
     }
     this.displayMessage('Scraping Product...');
-    this.api.scrapeProduct(this.productUrl).subscribe((product: any) => {
+    this.api.scrapeProduct(this.productUrl).subscribe((product: {data: Product}) => {
       this.router.navigate(['/product', product.data.id]);
     }, (error: any) => {
       this.displayMessage('There was an issue scraping the product.');

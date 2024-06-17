@@ -4,6 +4,7 @@ import { Component, inject } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ApiService } from '../api.service';
+import { Product } from '../shared/interfaces/interfaces';
 
 @Component({
   selector: 'app-product-detail',
@@ -15,10 +16,10 @@ import { ApiService } from '../api.service';
 export class ProductDetailComponent {
   private route = inject(ActivatedRoute);
   private api = inject(ApiService)
-  product$: Observable<any> = new Observable();
+  product$: Observable<Product> = new Observable();
 
 
-  ngOnInit() {
+  ngOnInit(): void {
     const id: string | null = this.route.snapshot.paramMap.get('id');
     this.product$ = this.api.fetchProduct(id);
   }

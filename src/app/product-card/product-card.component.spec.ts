@@ -15,7 +15,7 @@ describe('ProductCardComponent', () => {
           useValue: {
             snapshot: {
               paramMap: {
-                get: (param: string) => '123' // Example parameter value if needed
+                get: (_: string) => '123'
               }
             }
           }
