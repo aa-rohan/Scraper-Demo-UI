@@ -52,7 +52,7 @@ describe('ApiService', () => {
   });
 
   it('should call fetchProducts with correct params', () => {
-    const dummyProducts = [{ id: 1, title: 'Product A', price_amount: '123123' }];
+    const dummyProducts = {products: [{ id: 1, title: 'Product A', price_amount: '123123' }], total_pages: 2};
     const searchTerm = 'test';
     const category = 'electronics';
     const pageNumber = 1;

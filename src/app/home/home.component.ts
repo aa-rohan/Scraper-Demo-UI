@@ -1,7 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { Observable } from 'rxjs';
 import { ApiService } from '../api.service';
-import { AsyncPipe, CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { ProductListComponent } from '../product-list/product-list.component';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -10,7 +9,7 @@ import { Product } from '../shared/interfaces/interfaces';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [AsyncPipe, ProductListComponent, FormsModule, CommonModule],
+  imports: [ProductListComponent, FormsModule, CommonModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
@@ -18,7 +17,6 @@ export class HomeComponent {
   private api: ApiService = inject(ApiService)
   private router: Router = inject(Router)
 
-  products$: Observable<Product[]> = new Observable();
   productUrl: string | null = null;
   showMessage: boolean = false;
   notificationMessage: string = '';

@@ -27,7 +27,7 @@ export class ApiService {
     perPage: number = 5,
     orderBy: string = 'id',
     orderDirection: string = 'asc'
-  ): Observable<Product[]> {
+  ): Observable<{products: Product[], total_pages: number}> {
     let url = `${this.baseUrl}/products`;
     let params = new HttpParams()
       .set('page_number', pageNumber.toString())
@@ -40,7 +40,7 @@ export class ApiService {
     if (category) {
       params = params.set('category', category);
     }
-    return this.http.get<Product[]>(url, {params});
+    return this.http.get<{products: Product[], total_pages: number}>(url, {params});
   }
 
   fetchCategories(searchTerm: string | null = null): Observable<Category[]> {

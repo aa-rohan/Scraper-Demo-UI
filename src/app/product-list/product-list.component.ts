@@ -17,7 +17,7 @@ import { Category, Product } from '../shared/interfaces/interfaces';
 export class ProductListComponent {
   private api: ApiService = inject(ApiService);
 
-  private perPage: number = 20;
+  private perPage: number = 5;
 
   products$: Observable<Product[]> = new Observable();
   categories$: Observable<Category[]> = of([]);
@@ -64,7 +64,11 @@ export class ProductListComponent {
   }
 
   fetchProducts(): void {
-    this.products$ = this.api.fetchProducts(null, null, this.currentPage$.value, this.perPage);
+    this.products$ = this.api.fetchProducts(null, null, this.currentPage$.value, this.perPage).pipe(
+      map((data) => {
+        return data.products;
+      })
+    );
   }
 
   fetchCategories(): void {
