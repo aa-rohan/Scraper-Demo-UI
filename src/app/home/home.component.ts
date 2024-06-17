@@ -28,11 +28,14 @@ export class HomeComponent {
       return
     }
     this.displayMessage('Scraping Product...');
-    this.api.scrapeProduct(this.productUrl).subscribe((product: {data: Product}) => {
-      this.router.navigate(['/product', product.data.id]);
-    }, (error: any) => {
-      this.displayMessage('There was an issue scraping the product.');
-    });
+    this.api.scrapeProduct(this.productUrl).subscribe({
+      next: (response: {data: Product}) => {
+        this.router.navigate(['/product', response.data.id]);
+      },
+      error: (err: {error: any}) => {
+        this.displayMessage(`There was an issue scraping the product: ${err.error.error_message}`);
+      }
+    })
   }
 
   private displayMessage(message: string): void {
