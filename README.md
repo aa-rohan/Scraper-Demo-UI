@@ -1,6 +1,8 @@
 # Product Scraper Application - Frontend
 
-This is the frontend portion of the Product Scraper Application, developed using Angular 17 and Tailwind CSS. This application allows users to interact with the backend to scrape product details from e-commerce websites, view and search through the listed products, and manage product details. Currently Darax and Flipka
+This is the frontend portion of the Product Scraper Application, developed using Angular 17 and Tailwind CSS. This application allows users to interact with the backend to scrape product details from e-commerce websites, view and search through the listed products, and manage product details. Currently Daraz and Flipkart are supported.
+
+![scraper picture](https://github.com/aa-rohan/Scraper-Demo-UI/assets/41859937/d27b465e-6dff-49a8-8b3b-4247018e09e5)
 
 ## Features
 
@@ -62,3 +64,6 @@ With more time, the following could be integrated:
 
 - **Add more filters**: Filter by price or by domain.
 - **Expand Unit Testing**: Add more testing for critical functionality.
+- **Tailwind Themes**: Build custom theming with tailwind.
+- **Reusable components**: Make things like the search bar and dropdown components reusable.
+- **Barreling**: Encapsulate standalone components into barrels for wasier sharing.
